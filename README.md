@@ -137,7 +137,3 @@ curl --request POST \
 - Asegúrate de tener el servidor de base de datos en funcionamiento y que la base de datos esté configurada correctamente.
 - Este proyecto está destinado para fines de demostración y puede no ser adecuado para entornos de producción sin las modificaciones y las pruebas adecuadas.
 
-
-## Licencia
-
-Este proyecto está bajo la [Licencia MIT](LICENSE).
