@@ -4,28 +4,34 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
 @Component
 public class Encryption {
 
-    public String encrypt(String data, String secret) throws Exception {
-        SecretKey key = new SecretKeySpec(secret.getBytes(), "AES");
+    @Value("${encryption.master-key}")
+    private String masterKey;
+
+    public String encrypt(String data) throws Exception {
+        SecretKey key = new SecretKeySpec(masterKey.getBytes(), "AES");
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.ENCRYPT_MODE, key);
         byte[] encryptedData = cipher.doFinal(data.getBytes());
         return Base64.getEncoder().encodeToString(encryptedData);
     }
 
-    public String decrypt(String encryptedData, String secret) throws Exception {
-        SecretKey key = new SecretKeySpec(secret.getBytes(), "AES");
+    public String decrypt(String encryptedData) throws Exception {
+        SecretKey key = new SecretKeySpec(masterKey.getBytes(), "AES");
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decodedBytes = Base64.getDecoder().decode(encryptedData);
@@ -58,5 +64,12 @@ public class Encryption {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
         keyGen.initialize(2048);
         return keyGen.generateKeyPair();
+    }
+
+    public PrivateKey loadPrivateKey(String privateKeyString) throws Exception {
+        byte[] keyBytes = Base64.getDecoder().decode(privateKeyString);
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        return keyFactory.generatePrivate(spec);
     }
 }
