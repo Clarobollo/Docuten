@@ -13,8 +13,8 @@ Este proyecto proporciona una API REST para firmar y verificar documentos digita
 
 1. **Clonar el repositorio**:
     ```bash
-   git clone <URL_DEL_REPOSITORIO>
-   cd <NOMBRE_DEL_PROYECTO>
+   git clone https://github.com/Clarobollo/Docuten/edit/main/README.md
+   cd Docuten/demo
 
 2. **Configurar la base de datos**:
    - Crea una base de datos en MySQL con el archivo users.sql y ajusta las credenciales en el archivo `src/main/resources/application.properties`.
