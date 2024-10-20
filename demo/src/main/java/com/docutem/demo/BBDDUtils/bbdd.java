@@ -41,9 +41,9 @@ public class bbdd {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, username, password);
-            System.out.println("Conexión exitosa a la base de datos.");
+            //System.out.println("Conexión exitosa a la base de datos.");
         } catch (SQLException e) {
-            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
+            //System.err.println("Error al conectar a la base de datos: " + e.getMessage());
             throw e;
         }
         return connection;
@@ -53,9 +53,10 @@ public class bbdd {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Conexión cerrada.");
+                //System.out.println("Conexión cerrada.");
             } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+                //System.err.println("Error al cerrar la conexión: " + e.getMessage());
+                throw new RuntimeException("Error al cerrar la conexión: " + e.getMessage());
             }
         }
     }
@@ -77,7 +78,7 @@ public class bbdd {
                 isValid = true;
             }
         } catch (SQLException e) {
-            System.err.println("Error al validar el usuario: " + e.getMessage());
+            //System.err.println("Error al validar el usuario: " + e.getMessage());
             throw e;
         } finally {
             closeConnection(connection);
@@ -103,7 +104,7 @@ public class bbdd {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            System.err.println("Error al insertar las claves: " + e.getMessage());
+            //System.err.println("Error al insertar las claves: " + e.getMessage());
             throw e;
         } finally {
             closeConnection(connection);
@@ -130,7 +131,7 @@ public class bbdd {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error al obtener la clave privada: " + e.getMessage());
+            //System.err.println("Error al obtener la clave privada: " + e.getMessage());
             throw e;
         } finally {
             closeConnection(connection);
@@ -159,7 +160,7 @@ public class bbdd {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error al obtener la clave pública: " + e.getMessage());
+            //System.err.println("Error al obtener la clave pública: " + e.getMessage());
             throw e;
         } finally {
             closeConnection(connection);
