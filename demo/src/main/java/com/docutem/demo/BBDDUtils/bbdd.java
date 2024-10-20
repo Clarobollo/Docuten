@@ -139,4 +139,33 @@ public class bbdd {
         return privateKey;
     }
 
+    public String getPublicKey(String username, String pass) throws SQLException {
+        Connection connection = getConnection();
+        String publicKey = null;
+
+        try {
+            if (!isUserValid(username, pass)) {
+                throw new SQLException("Usuario o contraseña incorrectos.");
+            } else {
+                String query = "SELECT public FROM users WHERE user = ? AND pass = ?";
+                String hashedPassword = encryption.hashPassword(pass);
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, hashedPassword);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    publicKey = resultSet.getString("public");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener la clave pública: " + e.getMessage());
+            throw e;
+        } finally {
+            closeConnection(connection);
+        }
+
+        return publicKey;
+    }
+
 }

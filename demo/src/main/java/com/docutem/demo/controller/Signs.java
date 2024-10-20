@@ -27,6 +27,12 @@ public class Signs {
     public JsonNode sign(@RequestHeader Map<String, String> headers, @RequestBody String document) throws JsonProcessingException {
         return signsService.sign(headers, document);
     }
+
+    @ResponseBody
+    @PostMapping(path = "/verify", produces = MediaType.APPLICATION_JSON_VALUE)
+    public JsonNode verify(@RequestHeader Map<String, String> headers, @RequestBody JsonNode body) throws JsonProcessingException {
+        return signsService.verify(headers, body.get("document").asText(), body.get("signature").asText());
+    }
     
 }
 

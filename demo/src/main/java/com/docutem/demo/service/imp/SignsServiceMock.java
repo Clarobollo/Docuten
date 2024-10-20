@@ -1,15 +1,12 @@
 package com.docutem.demo.service.imp;
 
-import java.security.KeyPair;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.Signature;
-import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -49,6 +46,39 @@ public class SignsServiceMock implements SignsService{
             response.put("message", "Document signed successfully");
             response.put("signature", digitalSignatureString);
             return response;
+
+        } catch (Exception e) {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode response = mapper.createObjectNode();
+            response.put("status", "ERROR");
+            response.put("message", e.getMessage());
+            return response;
+        }
+    }
+
+    public JsonNode verify(Map<String, String> headers, String document, String signature) throws JsonProcessingException {
+        try {
+
+            byte[] documentBytes = Base64.getDecoder().decode(document);
+            byte[] signatureBytes = Base64.getDecoder().decode(signature);
+            PublicKey publicKey = encryption.loadPublicKey(bbdd.getPublicKey(headers.get("user"), headers.get("pass")));
+            Signature sign = Signature.getInstance("SHA256withRSA");
+            sign.initVerify(publicKey);
+            sign.update(documentBytes);
+
+            if (sign.verify(signatureBytes)) {
+                ObjectMapper mapper = new ObjectMapper();
+                ObjectNode response = mapper.createObjectNode();
+                response.put("status", "OK");
+                response.put("message", "Signature is valid");
+                return response;
+            } else {
+                ObjectMapper mapper = new ObjectMapper();
+                ObjectNode response = mapper.createObjectNode();
+                response.put("status", "ERROR");
+                response.put("message", "Signature is not valid");
+                return response;
+            }
 
         } catch (Exception e) {
             ObjectMapper mapper = new ObjectMapper();

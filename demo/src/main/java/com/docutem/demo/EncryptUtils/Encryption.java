@@ -13,7 +13,9 @@ import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 @Component
@@ -71,5 +73,10 @@ public class Encryption {
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         return keyFactory.generatePrivate(spec);
+    }
+
+    public PublicKey loadPublicKey(String publicKeyString) throws Exception {
+        byte[] keyBytes = Base64.getDecoder().decode(publicKeyString);
+        return KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(keyBytes));
     }
 }

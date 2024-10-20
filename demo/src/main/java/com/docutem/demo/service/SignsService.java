@@ -8,4 +8,5 @@ import java.util.Map;
 @Service
 public interface SignsService {
     JsonNode sign(Map<String, String> headers, String document) throws JsonProcessingException;
+    JsonNode verify(Map<String, String> headers, String document, String signature) throws JsonProcessingException;
 }

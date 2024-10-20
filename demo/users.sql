@@ -1,0 +1,69 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 21-10-2024 a las 01:11:06
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `demo`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user` varchar(30) NOT NULL,
+  `pass` varchar(64) NOT NULL,
+  `public` text DEFAULT NULL,
+  `private` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `user`, `pass`, `public`, `private`) VALUES
+(1, 'juanchillin', '9fb622b6cf30335156b928438fb265e02f277c89d4cc75ed524409dc97962bae', NULL, NULL),
+(2, 'hulolo', '75a12c0695ce95574c50654cb9c5b8b99f29099b0226f6bd2c56b85754122e13', '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');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
